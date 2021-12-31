@@ -44,6 +44,7 @@ ul{
 .admin_top_wrap {
     height:110px;
     line-height: 110px;
+    margin-bottom: 15px;
     background-color: #5080bd;
 }
 .admin_top_wrap>span {
