@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bookstore.model.AuthorVO;
 import com.bookstore.model.Criteria;
+import com.bookstore.model.PageDTO;
 import com.bookstore.service.AuthorService;
 
 import lombok.extern.log4j.Log4j;
@@ -56,6 +57,9 @@ public class AdminController {
         List list = authorService.authorGetList(cri);
         
         model.addAttribute("list", list);
+        
+        /* 페이지 이동 인터페이스 데이터 */
+        model.addAttribute("pageMaker", new PageDTO(cri, authorService.authorGetTotal(cri)));
     }
     
     /* 작가 등록 */
