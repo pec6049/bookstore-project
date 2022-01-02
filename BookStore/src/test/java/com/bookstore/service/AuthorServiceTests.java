@@ -8,13 +8,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bookstore.model.AuthorVO;
 
+import lombok.extern.log4j.Log4j;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@Log4j
 public class AuthorServiceTests {
 
     @Autowired
     private AuthorService service;
     
+    /*
     @Test
     public void authorEnrollTest() throws Exception {
         AuthorVO author = new AuthorVO();
@@ -25,4 +29,14 @@ public class AuthorServiceTests {
         
         service.authorEnroll(author);
     }
+    */
+    
+    /* 작가 상세 페이지 */
+	@Test
+	public void authorGetDetailTest() throws Exception {
+		int authorId = 20;
+		
+		log.info("author......." + service.authorGetDetail(authorId));
+	}
+	
 }
