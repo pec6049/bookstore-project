@@ -24,7 +24,14 @@
     		)
     	where rn > (#{pageNum} -1) * #{amount}	
     ]]>
+    </select>
     
+    <!-- 작가 수 -->
+    <select id="authorGetTotal" resultType="int">
+    	select count(*) from bs_author
+    	<if test="keyword != null">
+    		where authorName like '%' || #{keyword} || '%'
+    	</if>
     </select>
     
 </mapper>
