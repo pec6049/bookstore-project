@@ -39,4 +39,9 @@
     	select * from bs_author where authorId = #{authorId}
     </select>
     
+    <!-- 작가 정보 수정 -->
+  	<update id="authorModify">
+  		update bs_author set authorName=#{authorName}, nationId=#{nationId}, authorIntro=#{authorIntro}, updateDate=sysdate where authorId = #{authorId}
+  	</update>
+  	
 </mapper>
