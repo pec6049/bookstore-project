@@ -32,11 +32,28 @@ public class AuthorServiceTests {
     */
     
     /* 작가 상세 페이지 */
+    /*
 	@Test
 	public void authorGetDetailTest() throws Exception {
 		int authorId = 20;
 		
 		log.info("author......." + service.authorGetDetail(authorId));
 	}
-	
+	*/
+    
+    /* 작가 정보 수정 */
+	@Test
+	public void authorModifyTest() throws Exception {
+		AuthorVO author = new AuthorVO();
+				
+		author.setAuthorId(1);
+		System.out.println("수정 전...................." + service.authorGetDetail(author.getAuthorId()));
+		
+		author.setAuthorName("수정");
+		author.setNationId("01");
+		author.setAuthorIntro("소개 수정 하였습니다.");
+		
+		service.authorModify(author);
+		System.out.println("수정 후...................." + service.authorGetDetail(author.getAuthorId()));
+	}
 }
