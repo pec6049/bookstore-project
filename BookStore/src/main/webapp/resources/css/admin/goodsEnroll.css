@@ -141,6 +141,11 @@ ul{
     text-align-last: center;
 }
 
+/* ckeditor 높이 */
+.ck-content {
+    height: 170px;
+}
+
 /* 버튼 영역 */
 .btn_section {
 	text-align: center;
