@@ -8,4 +8,9 @@
 		values(#{bookName},#{authorId}, #{publeYear},#{publisher},#{cateCode},#{bookPrice},#{bookStock},#{bookDiscount},#{bookIntro},#{bookContents})
   	</insert>
 
+	<!-- 카테고리 리스트 -->
+  	<select id="cateList" resultType="com.bookstore.model.CateVO">
+  		select * from bs_bcate order by catecode
+  	</select>
+  	
 </mapper>
