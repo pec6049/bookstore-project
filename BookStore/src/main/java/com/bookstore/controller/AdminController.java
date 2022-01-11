@@ -17,6 +17,7 @@ import com.bookstore.model.Criteria;
 import com.bookstore.model.PageDTO;
 import com.bookstore.service.AdminService;
 import com.bookstore.service.AuthorService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -45,8 +46,19 @@ public class AdminController {
     
     /* 상품 등록 페이지 접속 */
     @RequestMapping(value = "goodsEnroll", method = RequestMethod.GET)
-    public void goodsEnrollGET() throws Exception {
+    public void goodsEnrollGET(Model model) throws Exception {
     	log.info("상품 등록 페이지 접속");
+    	
+    	ObjectMapper objm = new ObjectMapper();
+    	
+    	List list = adminService.cateList();
+    	
+    	String cateList = objm.writeValueAsString(list);
+    	
+    	model.addAttribute("cateList", cateList);
+    	
+    	//log.info("변경 전.........." + list);
+		//log.info("변경 후.........." + cateList);
     }
     
     /* 작가 등록 페이지 접속 */
