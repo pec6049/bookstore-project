@@ -18,6 +18,8 @@ public interface AdminService {
 	public List<BookVO> goodsGetList(Criteria cri);
 	
 	/* 상품 총 개수 */
-	public int goodsGetTotal(Criteria cri);	
+	public int goodsGetTotal(Criteria cri);
 	
+	/* 상품 조회 페이지 */
+	public BookVO goodsGetDetail(int bookId);
 }
