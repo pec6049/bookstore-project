@@ -17,6 +17,7 @@ import com.bookstore.model.Criteria;
 import com.bookstore.model.PageDTO;
 import com.bookstore.service.AdminService;
 import com.bookstore.service.AuthorService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -98,6 +99,23 @@ public class AdminController {
         model.addAttribute("pageMaker", new PageDTO(cri, authorService.authorGetTotal(cri)));
     }
     
+    /* 상품 조회 페이지 */
+	@GetMapping("/goodsDetail")
+	public void goodsGetInfoGET(int bookId, Criteria cri, Model model) throws JsonProcessingException {
+		log.info("goodsGetInfo()........." + bookId);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		/* 카테고리 리스트 데이터 */
+		model.addAttribute("cateList", mapper.writeValueAsString(adminService.cateList()));
+		
+		/* 목록 페이지 조건 정보 */
+		model.addAttribute("cri", cri);
+		
+		/* 조회 페이지 정보 */
+		model.addAttribute("goodsInfo", adminService.goodsGetDetail(bookId));
+	}
+	
     /* 작가 등록 */
     @RequestMapping(value="authorEnroll.do", method = RequestMethod.POST)
     public String authorEnrollPOST(AuthorVO author, RedirectAttributes rttr) throws Exception{
