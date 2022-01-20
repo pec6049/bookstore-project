@@ -75,6 +75,18 @@ public class AdminController {
 		//log.info("변경 후.........." + cateList);
     }
     
+    /* 상품 정보 삭제 */
+	@PostMapping("/goodsDelete")
+	public String goodsDeletePOST(int bookId, RedirectAttributes rttr) {
+		log.info("goodsDeletePOST..........");
+		
+		int result = adminService.goodsDelete(bookId);
+		
+		rttr.addFlashAttribute("delete_result", result);
+		
+		return "redirect:/admin/goodsManage";
+	}
+	
     /* 작가 등록 페이지 접속 */
     @RequestMapping(value = "authorEnroll", method = RequestMethod.GET)
     public void authorEnrollGET() throws Exception {
