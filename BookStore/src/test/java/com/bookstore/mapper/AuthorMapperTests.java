@@ -74,6 +74,7 @@ public class AuthorMapperTests {
 	*/
 	
 	/* 작가 정보 수정 */
+	/*
 	@Test
 	public void authorModifyTest() {
 		AuthorVO author = new AuthorVO();
@@ -87,6 +88,18 @@ public class AuthorMapperTests {
 		
 		mapper.authorModify(author);
 		System.out.println("수정 후...................." + mapper.authorGetDetail(author.getAuthorId()));
+	}
+	*/
+	
+	/* 작가 정보 삭제 */
+	@Test
+	public void authorDeleteTest() {
+		int authorId = 5;
+		int result = mapper.authorDelete(authorId);
+		
+		if(result == 1) {
+			System.out.println("삭제 성공");
+		}
 	}
 	
 }
