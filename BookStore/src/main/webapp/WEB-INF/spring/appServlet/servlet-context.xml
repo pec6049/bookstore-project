@@ -27,12 +27,15 @@
     <interceptors>
         <interceptor>
             <mapping path="/member/login.do"></mapping>
-            <beans:bean id="loginIntreceptor" class="com.bookstore.interceptor.LoginInterceptor"></beans:bean>
+            <beans:bean id="loginInterceptor" class="com.bookstore.interceptor.LoginInterceptor"></beans:bean>
         </interceptor>
         <interceptor>
             <mapping path="/admin/**"></mapping>
-            <beans:bean id="AdminIntreceptor" class="com.bookstore.interceptor.AdminInterceptor"></beans:bean>
+            <beans:bean id="AdminInterceptor" class="com.bookstore.interceptor.AdminInterceptor"></beans:bean>
         </interceptor>
     </interceptors>
+    
+    <!-- 업로드 관련 빈 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
 	
 </beans:beans>
