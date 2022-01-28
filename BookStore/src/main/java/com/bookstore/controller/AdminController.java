@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bookstore.model.AuthorVO;
@@ -223,6 +224,19 @@ public class AdminController {
 		
 		/* 페이지 이동 인터페이스 데이터 */
 		model.addAttribute("pageMaker", new PageDTO(cri, authorService.authorGetTotal(cri)));
+	}
+	
+	/* 첨부 파일 업로드 */
+	@PostMapping("/uploadAjaxAction")
+	public void uploadAjaxActionPOST(MultipartFile[] uploadFile) {
+		log.info("uploadAjaxActionPOST..........");
+		
+		for(int i = 0; i < uploadFile.length; i++) {
+			log.info("-----------------------------------------------");
+			log.info("파일 이름 : " + uploadFile[i].getOriginalFilename());
+			log.info("파일 타입 : " + uploadFile[i].getContentType());
+			log.info("파일 크기 : " + uploadFile[i].getSize());			
+		}
 	}
 	
 }
