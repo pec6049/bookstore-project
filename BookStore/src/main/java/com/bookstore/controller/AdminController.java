@@ -3,7 +3,10 @@ package com.bookstore.controller;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +14,9 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bookstore.model.AttachImageVO;
 import com.bookstore.model.AuthorVO;
 import com.bookstore.model.BookVO;
 import com.bookstore.model.Criteria;
@@ -236,9 +243,27 @@ public class AdminController {
 	}
 	
 	/* 첨부 파일 업로드 */
-	@PostMapping("/uploadAjaxAction")
-	public void uploadAjaxActionPOST(MultipartFile[] uploadFile) {
+	@PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<AttachImageVO>> uploadAjaxActionPOST(MultipartFile[] uploadFile) {
 		log.info("uploadAjaxActionPOST..........");
+		
+		/* 이미지 파일 체크 */
+		for(MultipartFile multipartFile: uploadFile) {
+			File checkfile = new File(multipartFile.getOriginalFilename());
+			String type = null;
+			
+			try {
+				type = Files.probeContentType(checkfile.toPath());
+				log.info("MIME TYPE : " + type);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(!type.startsWith("image")) {
+				List<AttachImageVO> list = null;
+				return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+			}
+		}
+		
 		String uploadFolder = "C:\\Users\\PC\\Desktop\\bookstore-project\\upload";
 		
 		/* 날짜 폴더 경로 */
@@ -253,12 +278,22 @@ public class AdminController {
 			uploadPath.mkdirs();
 		}
 		
+		/* 이미저 정보 담는 객체 */
+		List<AttachImageVO> list = new ArrayList();
+		
 		for(MultipartFile multipartFile : uploadFile) {
+			/* 이미지 정보 객체 */
+			AttachImageVO vo = new AttachImageVO();
+			
 			/* 파일 이름 */
 			String uploadFileName = multipartFile.getOriginalFilename();
+			vo.setFileName(uploadFileName);
+			vo.setUploadPath(datePath);
 			
 			/* uuid 적용 파일 이름 */
 			String uuid = UUID.randomUUID().toString();
+			vo.setUuid(uuid);
+			
 			uploadFileName = uuid + "_" + uploadFileName;
 			
 			/* 파일 위치, 파일 이름을 합친 File 객체 */
@@ -285,14 +320,13 @@ public class AdminController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} 
+			list.add(vo);
+			
 		} //for
 		
-		for(int i = 0; i < uploadFile.length; i++) {
-			log.info("-----------------------------------------------");
-			log.info("파일 이름 : " + uploadFile[i].getOriginalFilename());
-			log.info("파일 타입 : " + uploadFile[i].getContentType());
-			log.info("파일 크기 : " + uploadFile[i].getSize());			
-		}
+		ResponseEntity<List<AttachImageVO>> result = new ResponseEntity<List<AttachImageVO>>(list, HttpStatus.OK);
+		
+		return result;
 	}
 	
 }
