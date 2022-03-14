@@ -2,6 +2,7 @@ package com.bookstore.mapper;
 
 import java.util.List;
 
+import com.bookstore.model.AttachImageVO;
 import com.bookstore.model.BookVO;
 import com.bookstore.model.CateVO;
 import com.bookstore.model.Criteria;
@@ -28,5 +29,8 @@ public interface AdminMapper {
 	
 	/* 상품 정보 삭제 */
 	public int goodsDelete(int bookId);
+	
+	/* 이미지 등록 */
+	public void imageEnroll(AttachImageVO vo);
 	
 }
