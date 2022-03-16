@@ -20,6 +20,7 @@ public class AdminMapperTests {
 	private AdminMapper mapper;
 	
 	/* 상품 등록 */
+	/*
 	@Test
 	public void bookEnrollTest() throws Exception{
 		
@@ -42,6 +43,7 @@ public class AdminMapperTests {
 		
 		System.out.println("After BookVO : " + book);
 	}
+	*/
 	
 	/* 카테고리 리스트 */
 	/*
@@ -132,4 +134,12 @@ public class AdminMapperTests {
 		mapper.imageEnroll(vo);
 	}
 	*/
+	
+	/* 지정 상품 이미지 삭제 */
+	@Test
+	public void deleteImageAllTest() {
+		int bookId = 733;
+		
+		mapper.deleteImageAll(bookId);
+	}
 }
