@@ -452,10 +452,15 @@
 			$("#moveForm").submit();
 		});
 		
-		/* 수정 버튼 */
-		$("#modifyBtn").on("click", function(e){
+		/* 삭제 버튼 */
+		$("#deleteBtn").on("click", function(e){
 			e.preventDefault();
-			$("#modifyForm").submit();
+			let moveForm = $("#moveForm");
+			moveForm.find("input").remove();
+			moveForm.append('<input type="hidden" name="bookId" value="${goodsInfo.bookId}">');
+			moveForm.attr("action", "/admin/goodsDelete");
+			moveForm.attr("method", "post");
+			moveForm.submit();
 		});
 		
 		/* 수정 버튼 */
@@ -619,9 +624,7 @@
 		    	error : function(result){
 		    		alert("이미지 파일이 아닙니다.");
 		    	}
-			});		
-
-			
+			});
 		});
 			
 		/* var, method related with attachFile */
