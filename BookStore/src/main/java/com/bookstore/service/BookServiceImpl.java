@@ -1,5 +1,6 @@
 package com.bookstore.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,21 @@ public class BookServiceImpl implements BookService {
 	public List<BookVO> getGoodsList(Criteria cri) {
 		
 		log.info("getGoodsList().......");
+		
+		String type = cri.getType();
+		String[] typeArr = type.split("");
+		String[] authorArr = bookMapper.getAuthorIdList(cri.getKeyword());
+		
+		if(type.equals("A") || type.equals("AC") || type.equals("AT") || type.equals("ACT")) {
+			if(authorArr.length == 0) {
+				return new ArrayList();
+			}
+		}
+		for(String t : typeArr) {
+			if(t.equals("A")) {
+				cri.setAuthorArr(authorArr);
+			}
+		}
 		
 		return bookMapper.getGoodsList(cri);
 	}
