@@ -4,9 +4,29 @@
 
 	<!-- criteria(검색조건) -->
 	<sql id="criteria">
-		<if test="keyword != null">
-			bookName like '%' || #{keyword} || '%' and
-		</if>
+		<trim prefix="(" suffix=") AND" prefixOverrides="AND">
+			<foreach item="type" collection="typeArr">
+				<trim prefix="AND">
+					<choose>
+						<when test="type == 'A'.toString()">
+							<trim prefixOverrides="or">
+								<foreach item="authorId" collection="authorArr">
+									<trim prefix="or">
+										authorId = #{authorId}
+									</trim>
+								</foreach>
+							</trim>
+						</when>
+						<when test="type == 'C'.toString()">
+							cateCode like '%' || #{cateCode} || '%'
+						</when>
+						<when test="type == 'T'.toString()">
+							bookName like '%' || #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
 	</sql>
 	
 	<!-- 상품 검색 -->
@@ -15,7 +35,7 @@
 		    select * from (
 		        select /*+INDEX_DESC(bs_book 인덱스ID)*/ rownum as rn, bookId, bookName,
 		            (select authorName from bs_author where bs_book.authorId = bs_author.authorId) authorName, authorId,
-		            (select cateName from bs_bcate where bs_book.cateCode = bs_bcate.cateCode) cateName,cateCode, publisher, publeYear, bookPrice  
+		            (select cateName from bs_bcate where bs_book.cateCode = bs_bcate.cateCode) cateName,cateCode, publisher, publeYear, bookPrice, bookDiscount  
 		        from bs_book
 		        where 
 	    ]]>
@@ -35,6 +55,11 @@
 		where
 		<include refid="criteria"></include> 
 		bookId > 0
+	</select>
+	
+	<!-- 작가 id 리스트 요청 -->
+	<select id="getAuthorIdList" resultType="String">
+		select authorId from bs_author where authorName like '%' || #{keyword} || '%'
 	</select>
 	
 </mapper>
