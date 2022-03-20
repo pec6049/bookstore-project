@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bookstore.mapper.AttachMapper;
 import com.bookstore.mapper.BookMapper;
+import com.bookstore.model.AttachImageVO;
 import com.bookstore.model.BookVO;
 import com.bookstore.model.Criteria;
 
@@ -18,6 +20,9 @@ public class BookServiceImpl implements BookService {
 	
 	@Autowired
 	private BookMapper bookMapper;
+	
+	@Autowired
+	private AttachMapper attachMapper;
 	
 	/* 상품 검색 */
 	@Override
@@ -40,7 +45,15 @@ public class BookServiceImpl implements BookService {
 			}
 		}
 		
-		return bookMapper.getGoodsList(cri);
+		List<BookVO> list = bookMapper.getGoodsList(cri);
+		
+		list.forEach(book -> {
+			int bookId = book.getBookId();
+			List<AttachImageVO> imageList = attachMapper.getAttachList(bookId);
+			book.setImageList(imageList);
+		});
+		
+		return list;
 	}
 
 	/* 상품 총 갯수 */
